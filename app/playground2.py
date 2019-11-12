@@ -30,6 +30,8 @@ if __name__ == "__main__":
 
     print(f"PARSED {len(documents)} DOCUMENTS..")
 
+    #breakpoint()
+
     # GOAL: construct frequency matrix
     cv = CountVectorizer()
     #documents = ["doc 1 contents", "doc 2 contents", "doc 3 contents"]
@@ -39,6 +41,8 @@ if __name__ == "__main__":
     print("MATRIX")
     print(matrix.toarray())
     print(matrix.toarray()[0].tolist())
+
+    #breakpoint()
 
     # GOAL: construct frequency matrix (TF-IDF)
     tv = TfidfVectorizer()
@@ -50,17 +54,22 @@ if __name__ == "__main__":
     print(matrix.toarray()[0].tolist())
 
     # GOAL: identify which documents / articles are most similar to the first
+    #FIRST METHOD - similarity matrix
 
     similarity_matrix = cosine_similarity(matrix.toarray())
     similarity_df = pd.DataFrame(similarity_matrix)
     first_doc = similarity_df.iloc[0]
     print(first_doc)
-    similar_docs = first_doc.sort_values(ascending=False)[0:10]
+    # indexes that are most similar to first doc
+    similar_docs = first_doc.sort_values(ascending=False)[0:10] 
     print(documents[0])
-    print(documents[332])
-    print(documents[36])
+    #print(documents[332]) # doc-332 that's most similar to doc-0
+    #print(documents[36])
+
+    #breakpoint()
 
     # GOAL: identify which documents / articles are most similar to the first
+    # SECOND METHOD - k nearest neighbors
 
     dtm = pd.DataFrame(matrix.toarray())
 
@@ -75,6 +84,7 @@ if __name__ == "__main__":
     print("DISTANCES", results[0])
     print("DOCUMENTS", results[1])
 
+    # Prints 5 nearets neighbors (includes itself)
     for doc_id in results[1][0]:
         print("-----")
         print("DOC", doc_id)
